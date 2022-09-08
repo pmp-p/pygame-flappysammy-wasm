@@ -1,0 +1,3 @@
+# flappysammy
+
+Yet another flappy bird clone in python/pygame...
