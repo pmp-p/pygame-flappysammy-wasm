@@ -10,7 +10,7 @@ class Game:
 		self.display_surface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
 		pygame.display.set_caption('Flappy Sammy')
 		self.clock = pygame.time.Clock()
-		self.active = False
+		self.active = True
 
 		# sprite groups
 		self.all_sprites = pygame.sprite.Group()
@@ -18,13 +18,15 @@ class Game:
 		self.particles = pygame.sprite.Group()
 
 		# scale factor
-		bg_height = pygame.image.load('/Users/przenio/python/flappysammy/graphics/environment/background.png').get_height()
+		#bg_height = pygame.image.load('/Users/przenio/python/flappysammy/graphics/environment/background.png').get_height()
+		bg_height = pygame.image.load('graphics/environment/background.png').get_height()
 
 		self.scale_factor = WINDOW_HEIGHT / bg_height
 
 		# sprite setup 
 		BG(self.all_sprites,self.scale_factor)
 		Ground([self.all_sprites,self.collision_sprites],self.scale_factor)
+		#Plane(self.all_sprites,self.scale_factor / 12.0)
 		self.plane = Plane(self.all_sprites,self.scale_factor / 12.0)
 		#self.bubble = ParticleBubble(self.all_sprites,self.scale_factor / 3.5)
 
@@ -33,18 +35,19 @@ class Game:
 		pygame.time.set_timer(self.obstacle_timer,1400)
 		
 		# text
-		self.font = pygame.font.Font('/Users/przenio/python/flappysammy/graphics/font/BD_Cartoon_Shout.ttf',30)
+		self.font = pygame.font.Font('graphics/font/BD_Cartoon_Shout.ttf',30)
 		self.score = 0
 		self.fps = 0
 		self.start_offset = 0
 
 		# menu
-		self.menu_surf = pygame.image.load('/Users/przenio/python/flappysammy/graphics/ui/menu.png').convert_alpha()
+		self.menu_surf = pygame.image.load('graphics/ui/menu.png').convert_alpha()
 		self.menu_rect = self.menu_surf.get_rect(center = (WINDOW_WIDTH / 2,WINDOW_HEIGHT / 2))
 
 		# music 
-		#self.music = pygame.mixer.Sound('/Users/przenio/python/flappysammy/sounds/music.wav')
-		#self.music.play(loops = -1)
+		self.music = pygame.mixer.Sound('sounds/music.ogg')
+		self.music.set_volume(0.4)
+		self.music.play()
 
 	def collisions(self):
 		if pygame.sprite.spritecollide(self.plane,self.collision_sprites,False,pygame.sprite.collide_mask)\
@@ -97,8 +100,8 @@ class Game:
 						self.active = True
 						self.start_offset = pygame.time.get_ticks()
 
-				if event.type == self.obstacle_timer and self.active:
-					Obstacle([self.all_sprites,self.collision_sprites],self.scale_factor * 1.0)
+				#if event.type == self.obstacle_timer and self.active:
+					#self.obstacle = Obstacle([self.all_sprites,self.collision_sprites],self.scale_factor * 1.0)
 			
 			# game logic
 			self.display_surface.fill('black')
@@ -114,7 +117,7 @@ class Game:
 				self.display_surface.blit(self.menu_surf,self.menu_rect)
 
 			pygame.display.update()
-			self.clock.tick(FRAMERATE)
+			#self.clock.tick(FRAMERATE)
 			await asyncio.sleep(0)
 
 if __name__ == '__main__':

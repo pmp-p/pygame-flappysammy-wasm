@@ -1,4 +1,4 @@
-import pygame 
+import pygame, asyncio
 from settings import *
 from random import choice, randint
 
@@ -6,7 +6,7 @@ from random import choice, randint
 class BG(pygame.sprite.Sprite):
 	def __init__(self,groups,scale_factor):
 		super().__init__(groups)
-		bg_image = pygame.image.load('/Users/przenio/python/flappysammy/graphics/environment/background.png').convert()
+		bg_image = pygame.image.load('graphics/environment/background.png').convert()
 		
 		full_height = bg_image.get_height() * scale_factor
 		full_width = bg_image.get_width() * scale_factor
@@ -31,7 +31,7 @@ class Ground(pygame.sprite.Sprite):
 		self.sprite_type = 'ground'
 		
 		# image
-		ground_surf = pygame.image.load('/Users/przenio/python/flappysammy/graphics/environment/ground.png').convert_alpha()
+		ground_surf = pygame.image.load('graphics/environment/ground.png').convert_alpha()
 		self.image = pygame.transform.scale(ground_surf,pygame.math.Vector2(ground_surf.get_size()) * scale_factor)
 		
 		# position
@@ -51,6 +51,7 @@ class Ground(pygame.sprite.Sprite):
 class Plane(pygame.sprite.Sprite):
 	def __init__(self,groups,scale_factor):
 		super().__init__(groups)
+		self.sprite_type = 'plane'
 
 		# image 
 		self.import_frames(scale_factor)
@@ -69,16 +70,18 @@ class Plane(pygame.sprite.Sprite):
 		self.mask = pygame.mask.from_surface(self.image)
 
 		# sound
-		#self.jump_sound = pygame.mixer.Sound('/Users/przenio/python/flappysammy/sounds/jump.wav')
-		#self.jump_sound.set_volume(0.3)
+		self.jump_sound = pygame.mixer.Sound('sounds/jump.ogg')
+		self.jump_sound.set_volume(0.3)
 
 	def import_frames(self,scale_factor):
 		self.frames = []
 		for i in range(1):
 			#surf = pygame.image.load(f'/Users/przenio/python/flappysammy/graphics/plane/red{i}.png').convert_alpha()
-			surf = pygame.image.load(f'/Users/przenio/python/flappysammy/graphics/plane/sammy_zombie.png').convert_alpha()
+			surf = pygame.image.load(f'graphics/plane/sammy_zombie.png').convert_alpha()
 			scaled_surface = pygame.transform.scale(surf,pygame.math.Vector2(surf.get_size())* scale_factor)
 			self.frames.append(scaled_surface)
+
+
 
 	def apply_gravity(self,dt):
 		self.direction += self.gravity * dt
@@ -86,7 +89,7 @@ class Plane(pygame.sprite.Sprite):
 		self.rect.y = round(self.pos.y)
 
 	def jump(self):
-		#self.jump_sound.play()
+		self.jump_sound.play()
 		self.direction = -400
 
 	def animate(self,dt):
@@ -114,7 +117,7 @@ class Obstacle(pygame.sprite.Sprite):
 		self.sprite_type = 'obstacle'
 
 		orientation = choice(('up','down'))
-		surf = pygame.image.load(f'/Users/przenio/python/flappysammy/graphics/obstacles/{choice((0,1))}.png').convert_alpha()
+		surf = pygame.image.load(f'graphics/obstacles/{choice((0,1))}.png').convert_alpha()
 		self.image = pygame.transform.scale(surf,pygame.math.Vector2(surf.get_size()) * scale_factor)
 		
 		x = WINDOW_WIDTH + randint(40,100)
@@ -142,7 +145,7 @@ class ParticleBubble(pygame.sprite.Sprite):
 	def __init__(self,groups,scale_factor):
 		super().__init__(groups)
 
-		surf = pygame.image.load(f'/Users/przenio/python/flappysammy/graphics/bubbles/bubble1.png').convert_alpha()
+		surf = pygame.image.load(f'graphics/bubbles/bubble1.png').convert_alpha()
 		self.image = pygame.transform.scale(surf,pygame.math.Vector2(surf.get_size()) * scale_factor)
 
 		self.rect = self.image.get_rect(midleft = (WINDOW_WIDTH / 9,WINDOW_HEIGHT / 2))
