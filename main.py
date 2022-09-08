@@ -18,7 +18,6 @@ class Game:
 		self.particles = pygame.sprite.Group()
 
 		# scale factor
-		#bg_height = pygame.image.load('/Users/przenio/python/flappysammy/graphics/environment/background.png').get_height()
 		bg_height = pygame.image.load('graphics/environment/background.png').get_height()
 
 		self.scale_factor = WINDOW_HEIGHT / bg_height
@@ -26,7 +25,6 @@ class Game:
 		# sprite setup 
 		BG(self.all_sprites,self.scale_factor)
 		Ground([self.all_sprites,self.collision_sprites],self.scale_factor)
-		#Plane(self.all_sprites,self.scale_factor / 12.0)
 		self.plane = Plane(self.all_sprites,self.scale_factor / 12.0)
 		#self.bubble = ParticleBubble(self.all_sprites,self.scale_factor / 3.5)
 
@@ -118,7 +116,7 @@ class Game:
 				self.display_surface.blit(self.menu_surf,self.menu_rect)
 
 			pygame.display.update()
-			#self.clock.tick(FRAMERATE)
+			self.clock.tick(FRAMERATE)
 			await asyncio.sleep(0)
 
 if __name__ == '__main__':
