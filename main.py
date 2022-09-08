@@ -1,4 +1,4 @@
-import pygame, sys, time, asyncio
+import pygame, sys, time, asyncio, os
 from settings import *
 from sprites import BG, Ground, Plane, Obstacle, ParticleBubble
 
@@ -96,6 +96,7 @@ class Game:
 						self.plane.jump()
 						#self.bubble = ParticleBubble(self.all_sprites,self.scale_factor * 0.3)
 					else:
+						print("Current Working Directory " , os.getcwd())
 						self.plane = Plane(self.all_sprites,self.scale_factor / 12.0)
 						self.active = True
 						self.start_offset = pygame.time.get_ticks()
