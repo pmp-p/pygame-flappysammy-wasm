@@ -78,7 +78,7 @@ class Game:
 		self.display_surface.blit(fps_surf,fps_rect)
 
 	async def run(self):
-		self.plane.kill()
+		#self.plane.kill()
 		last_time = time.time()
 		while True:
 			
